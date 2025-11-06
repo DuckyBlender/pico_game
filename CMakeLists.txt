@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(pico_game pico_game.c )
+add_executable(pico_game pico_game.cpp hd44780/HD44780_LCD_PCF8574.cpp hd44780/HD44780_LCD_PCF8574_Print.cpp)
 
 pico_set_program_name(pico_game "pico_game")
 pico_set_program_version(pico_game "0.1")
@@ -46,7 +46,8 @@ pico_enable_stdio_usb(pico_game 1)
 
 # Add the standard library to the build
 target_link_libraries(pico_game
-        pico_stdlib)
+        pico_stdlib
+        hardware_i2c)
 
 # Add the standard include files to the build
 target_include_directories(pico_game PRIVATE
