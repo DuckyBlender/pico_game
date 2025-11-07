@@ -7,6 +7,7 @@
 
 #define TOTAL_ROUNDS 5
 #define BUTTON_GPIO 15
+#define LED_GPIO 14
 
 volatile bool waiting_for_press = false;
 volatile bool waiting_for_game_start = false;
@@ -29,9 +30,9 @@ int main()
 {
     stdio_init_all();
 
-    // Initialize GPIO 0 as output for LED
-    gpio_init(0);
-    gpio_set_dir(0, GPIO_OUT);
+    // Initialize LED_GPIO as output for LED
+    gpio_init(LED_GPIO);
+    gpio_set_dir(LED_GPIO, GPIO_OUT);
 
     // Initialize BUTTON_GPIO as input for button with pull-up
     gpio_init(BUTTON_GPIO);
@@ -87,7 +88,7 @@ int main()
             myLCD.LCDGOTO(myLCD.LCDLineNumberTwo, 0);
             char pressMsg[] = "Press when OFF";
             myLCD.LCDSendString(pressMsg);
-            gpio_put(0, 1);
+            gpio_put(LED_GPIO, 1);
             printf("Round %d/%d: Get ready...\n", current_round + 1, TOTAL_ROUNDS);
 
             // Random delay between 1 and 6 seconds
@@ -95,7 +96,7 @@ int main()
             sleep_ms(delay_ms);
 
             // Turn off LED
-            gpio_put(0, 0);
+            gpio_put(LED_GPIO, 0);
             // Record start time
             start_time = get_absolute_time();
 
